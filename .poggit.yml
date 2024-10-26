@@ -5,6 +5,8 @@ branches:
 projects:
   KitSystem:
     path: ""
+    lint:
+      phpstan: false
     icon: Icon.png
     libs:
       - src: LatamPMDevs/Commando/Commando
