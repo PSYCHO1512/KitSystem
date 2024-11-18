@@ -122,18 +122,24 @@ class CategoryManager
         }
 
         $files = glob($categoryDirectory . DIRECTORY_SEPARATOR . '*.json');
+        $this->categories = [];
 
         if (is_array($files) && count($files) > 0) {
             foreach ($files as $file) {
                 $json = file_get_contents($file);
                 if ($json === false) {
+                    error_log("ERRRO: Failed to read file: " . $file);
                     continue;
                 }
+
                 $data = json_decode($json, true);
                 if (!is_array($data)) {
+                    error_log("ERROR: Invalid JSON format in file:" . $file);
                     continue;
                 }
+
                 if (!isset($data['name'], $data['prefix']) || !is_string($data['name']) || !is_string($data['prefix'])) {
+                    error_log("ERROR: Missing or invalid 'name' or 'prefix' in file:" . $file);
                     continue;
                 }
 
@@ -147,9 +153,12 @@ class CategoryManager
                             continue;
                         }
                         $kit = Main::getInstance()->getKitManager()->getKit($kitName);
-                        if ($kit !== null) {
-                            $category->addKit($kit);
+                        if ($kit === null) {
+                            error_log("ERROR: Kit " .  $kitName . " not found for category {$data['name']} in file: " . $file);
+                            continue;
                         }
+
+                        $category->addKit($kit);
                     }
                 }
                 $this->categories[$category->getName()] = $category;
