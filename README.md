@@ -24,13 +24,17 @@ This plugin makes it easy for you to manage kits as it has a form system for eas
 - `/kit edit` Opens a subform for you to choose what to edit from the kit
 - `/kit editcategory` Opens a subform for you to choose what to edit from the category
 - `/kit preview` Opens a form to select a kit and view its items
-- 
+
 # Libs: 
-### Command: [Commando](https://github.com/LatamPMDevs/Commando)
-### Forms: [EasyUI](https://github.com/Jorgebyte/easyui)
-### Items: [item-serialize-utils](https://github.com/presentkim-pm/item-serialize-utils.git)
-### Economy: [libPiggyEconomy](https://github.com/DaPigGuy/libPiggyEconomy.git)
-### InvMenu: [InvMenu](https://github.com/Muqsit/InvMenu.git)
+## Command: [Commando](https://github.com/LatamPMDevs/Commando)
+## Forms: [EasyUI](https://github.com/Jorgebyte/easyui)
+## Items: [item-serialize-utils](https://github.com/presentkim-pm/item-serialize-utils.git)
+## Economy: [libPiggyEconomy](https://github.com/DaPigGuy/libPiggyEconomy.git)
+## InvMenu: [InvMenu](https://github.com/Muqsit/InvMenu.git)
+
+# Review:
+
+[![Alt text](https://img.youtube.com/vi/f-7IVLkiZFQ/0.jpg)](https://www.youtube.com/watch?v=f-7IVLkiZFQ)
 
 # Permissions
 ```YAML
