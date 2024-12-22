@@ -34,18 +34,35 @@ class SaveCooldownTask extends AsyncTask
     public function onRun(): void
     {
         $db = new \SQLite3($this->filePath);
-        $db->exec("CREATE TABLE IF NOT EXISTS cooldowns (uuid TEXT, kit TEXT, expiry INTEGER, PRIMARY KEY (uuid, kit))");
-        $stmt = $db->prepare("INSERT OR REPLACE INTO cooldowns (uuid, kit, expiry) VALUES (:uuid, :kit, :expiry)");
 
+        // Set a busy timeout of 5 seconds to retry if the database is locked
+        $db->busyTimeout(5000);
+
+        // Create the table if it doesn't exist
+        $db->exec("CREATE TABLE IF NOT EXISTS cooldowns (uuid TEXT, kit TEXT, expiry INTEGER, PRIMARY KEY (uuid, kit))");
+
+        // Start transaction
+        $db->exec('BEGIN TRANSACTION');
+
+        // Prepare and bind the statement
+        $stmt = $db->prepare("INSERT OR REPLACE INTO cooldowns (uuid, kit, expiry) VALUES (:uuid, :kit, :expiry)");
         if ($stmt === false) {
             throw new \Exception("Failed to prepare statement: " . $db->lastErrorMsg());
         }
 
+        // Bind values to the statement
         $stmt->bindValue(":uuid", $this->uuid, SQLITE3_TEXT);
         $stmt->bindValue(":kit", $this->kitName, SQLITE3_TEXT);
         $stmt->bindValue(":expiry", $this->expiryTime, SQLITE3_INTEGER);
+
+        // Execute the statement
         $stmt->execute();
         $stmt->close();
+
+        // Commit the transaction
+        $db->exec('COMMIT');
+
+        // Close the database connection
         $db->close();
     }
 }
